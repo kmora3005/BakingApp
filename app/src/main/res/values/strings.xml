@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+    <string name="recipe_image">recipe image</string>
+    <string name="servings">Servings:</string>
+    <string name="video_unavailable">Video unavailable</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ingredients_text">Ingredients:</string>
+    <string name="steps_text">Steps:</string>
+    <string name="recipes_text">Recipes</string>
+    <string name="next_text">next</string>
+    <string name="empty_view_text">None recipe is selected</string>
+    <string name="step_text">Step</string>
+    <string name="ingredients_and_steps_text">Ingredients and steps</string>
+    <string name="ingredients_for_text">Ingredients for</string>
+</resources>
