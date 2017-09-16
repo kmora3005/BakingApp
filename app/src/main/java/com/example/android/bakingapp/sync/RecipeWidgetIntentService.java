@@ -5,10 +5,15 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.provider.RecipeWidgetProvider;
+
+import static com.example.android.bakingapp.ui.MainActivity.KEY_PREF_ID_RECIPE;
+import static com.example.android.bakingapp.ui.MainActivity.KEY_PREF_NAME_RECIPE;
+import static com.example.android.bakingapp.ui.MainActivity.PREFERENCES_RECIPE;
 
 /**
  * Project name BakingApp
@@ -31,27 +36,25 @@ public class RecipeWidgetIntentService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_UPDATE_INGREDIENTS_WIDGETS.equals(action)) {
-                final int idRecipe = intent.getIntExtra(EXTRA_RECIPE_ID, INVALID_RECIPE_ID);
-                final String nameRecipe = intent.getStringExtra(EXTRA_RECIPE_NAME);
-                handleActionUpdateIngredientsWidgets(idRecipe, nameRecipe);
+                handleActionUpdateIngredientsWidgets();
             }
         }
     }
 
-    public static void startActionUpdateIngredientsWidgets(Context context, int idRecipe, String nameRecipe) {
+    public static void startActionUpdateIngredientsWidgets(Context context) {
         Intent intent = new Intent(context, RecipeWidgetIntentService.class);
         intent.setAction(ACTION_UPDATE_INGREDIENTS_WIDGETS);
-        intent.putExtra(EXTRA_RECIPE_ID, idRecipe);
-        intent.putExtra(EXTRA_RECIPE_NAME, nameRecipe);
         context.startService(intent);
     }
 
-    private void handleActionUpdateIngredientsWidgets(int idRecipe, String nameRecipe) {
-
+    private void handleActionUpdateIngredientsWidgets() {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
 
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.gv_widget);
+        SharedPreferences prefs = this.getSharedPreferences(PREFERENCES_RECIPE,Context.MODE_MULTI_PROCESS);
+        int idRecipe=prefs.getInt(KEY_PREF_ID_RECIPE, 0);
+        String nameRecipe=prefs.getString(KEY_PREF_NAME_RECIPE, "...");
         RecipeWidgetProvider.updateIngredientsWidgets(this, appWidgetManager, idRecipe, nameRecipe,appWidgetIds);
     }
 }

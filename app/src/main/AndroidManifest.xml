@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.IngredientsAndStepsActivity"
-            android:label="@string/ingredients_and_steps_text">
+            android:label="@string/ingredients_and_steps_text"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />

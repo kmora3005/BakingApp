@@ -1,5 +1,6 @@
 package com.example.android.bakingapp.adapter;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.ui.MainActivity;
 
@@ -16,6 +18,10 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.android.bakingapp.ui.MainActivity.COL_NUM_ID;
+import static com.example.android.bakingapp.ui.MainActivity.COL_NUM_IMAGE;
+import static com.example.android.bakingapp.ui.MainActivity.COL_NUM_NAME;
+
 /**
  * Project name BakingApp
  * Created by kenneth on 27/08/2017.
@@ -23,9 +29,11 @@ import butterknife.ButterKnife;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private Cursor mCursor;
+    private Context mContext;
     private final RecipeAdapterOnClickHandler mClickHandler;
 
-    public RecipeAdapter(RecipeAdapterOnClickHandler clickHandler){
+    public RecipeAdapter(Context context, RecipeAdapterOnClickHandler clickHandler){
+        mContext = context;
         mClickHandler=clickHandler;
     }
 
@@ -40,10 +48,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String name = mCursor.getString(MainActivity.COL_NUM_NAME);
+        String name = mCursor.getString(COL_NUM_NAME);
         int servings = mCursor.getInt(MainActivity.COL_NUM_SERVINGS);
+        String urlImage = mCursor.getString(COL_NUM_IMAGE);
         holder.tvName.setText(name);
         holder.tvServings.setText(String.format(Locale.US,"%d", servings) );
+        Glide.with(mContext).load(urlImage).placeholder(R.mipmap.ic_launcher).into(holder.ivImage);
     }
 
     @Override
@@ -55,6 +65,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
         notifyDataSetChanged();
+    }
+
+    public int firstIdRecipe(){
+        mCursor.moveToPosition(0);
+        return mCursor.getInt(COL_NUM_ID);
+    }
+
+    public String firstNameRecipe(){
+        mCursor.moveToPosition(0);
+        return mCursor.getString(COL_NUM_NAME);
     }
 
     public interface RecipeAdapterOnClickHandler {
@@ -76,8 +96,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            int id = mCursor.getInt(MainActivity.COL_NUM_ID);
-            String name = mCursor.getString(MainActivity.COL_NUM_NAME);
+            int id = mCursor.getInt(COL_NUM_ID);
+            String name = mCursor.getString(COL_NUM_NAME);
             mClickHandler.onClick(id, name);
         }
     }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/sv_ingredients_and_steps"
     android:orientation="vertical"
     android:fillViewport="true"
     tools:context="com.example.android.bakingapp.ui.IngredientsAndStepsActivity">
@@ -72,7 +73,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_steps"
                     android:layout_width="match_parent"
-                    android:layout_height="600dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="550dp"
                     android:layout_marginTop="8dp" />
 
 

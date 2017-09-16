@@ -1,6 +1,8 @@
 package com.example.android.bakingapp.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -37,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements
     public static final int COL_NUM_ID = 0;
     public static final int COL_NUM_NAME = 1;
     public static final int COL_NUM_SERVINGS = 2;
+    public static final int COL_NUM_IMAGE = 3;
+
+    public static final String KEY_PREF_ID_RECIPE = "key_pref_id_recipe";
+    public static final String KEY_PREF_NAME_RECIPE = "key_pref_name_recipe";
+    public static final String PREFERENCES_RECIPE= "preferences_recipes";
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecyclerView;
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements
         GridLayoutManager layoutManager = new GridLayoutManager(this, numColumns);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new RecipeAdapter(this);
+        mAdapter = new RecipeAdapter(this,this);
         mRecyclerView.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(LOADER_ID_RECIPES, null, this);
         RecipeSyncUtils.initialize(this);
@@ -75,6 +82,16 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
 
+        SharedPreferences preferences = this.getSharedPreferences(PREFERENCES_RECIPE, Context.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+        if (!preferences.contains(KEY_PREF_ID_RECIPE)) {
+            prefsEditor.putInt(KEY_PREF_ID_RECIPE, mAdapter.firstIdRecipe());
+            prefsEditor.apply();
+        }
+        if (!preferences.contains(KEY_PREF_NAME_RECIPE)) {
+            prefsEditor.putString(KEY_PREF_NAME_RECIPE, mAdapter.firstNameRecipe());
+            prefsEditor.apply();
+        }
     }
 
     @Override
@@ -85,7 +102,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(int id, String name) {
-        RecipeWidgetIntentService.startActionUpdateIngredientsWidgets(this, id, name);
+        RecipeWidgetIntentService.startActionUpdateIngredientsWidgets(this);
+
+        SharedPreferences.Editor prefsEditor = this.getSharedPreferences(PREFERENCES_RECIPE, Context.MODE_MULTI_PROCESS).edit();
+        prefsEditor.putInt(KEY_PREF_ID_RECIPE, id);
+        prefsEditor.putString(KEY_PREF_NAME_RECIPE, name);
+        prefsEditor.apply();
 
         Intent intent = new Intent(this, IngredientsAndStepsActivity.class);
         intent.putExtra(EXTRA_RECIPE_ID,id);

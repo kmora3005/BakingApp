@@ -1,5 +1,14 @@
 package com.example.android.bakingapp.object;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.android.bakingapp.network.GsonRequest;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -12,6 +21,7 @@ import java.net.URL;
  */
 
 public class JsonResponseRecipes {
+    private static final String TAG = JsonResponseRecipes.class.getSimpleName();
     private final static String PATH_JSON_RECIPE="https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
     private static String readUrl() throws Exception {
@@ -32,18 +42,28 @@ public class JsonResponseRecipes {
         }
     }
 
-    public static Recipe[] getRecipes()  {
-        Gson gson = new Gson();
+    public void getRecipes(Context context, Response.Listener<Recipe[]> requestSuccessListener)  {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        GsonRequest<Recipe[]> myReq = new GsonRequest<>(
+                PATH_JSON_RECIPE,
+                Recipe[].class,
+                null,
+                requestSuccessListener,
+                requestErrorListener());
 
-        try {
-            String json = readUrl();
-            return gson.fromJson(json, Recipe[].class);
+        queue.add(myReq);
 
-        }  catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    }
 
+
+
+    private Response.ErrorListener requestErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,error.getMessage());
+            }
+        };
     }
 }
 

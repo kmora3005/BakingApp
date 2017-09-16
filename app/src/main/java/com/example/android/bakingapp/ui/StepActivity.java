@@ -17,19 +17,15 @@ import com.example.android.bakingapp.provider.StepContract;
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_DESCRIPTION;
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_ID_RECIPE;
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_ADAPTER_POSITION;
+import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_THUMBNAIL_URL;
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_VIDEO_URL;
+import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.STEPS_PROJECTION;
 
 public class StepActivity extends AppCompatActivity  implements
         LoaderManager.LoaderCallbacks<Cursor>, StepAdapter.StepAdapterOnClickHandler{
     private static final String TAG = StepActivity.class.getSimpleName();
     private static final int LOADER_ID_STEPS = 3;
 
-    private static final String[] STEPS_PROJECTION = {
-            StepContract.COLUMN_ID,
-            StepContract.COLUMN_SHORT_DESCRIPTION,
-            StepContract.COLUMN_DESCRIPTION,
-            StepContract.COLUMN_VIDEO_URL
-    };
 
     private int mStartPosition;
     private int mRecipeId;
@@ -47,19 +43,25 @@ public class StepActivity extends AppCompatActivity  implements
         if (intent.hasExtra(KEY_EXTRA_ADAPTER_POSITION)){
             mStartPosition=intent.getExtras().getInt(KEY_EXTRA_ADAPTER_POSITION);
         }
+
         String description="";
         String videoUrl="";
+        String thumbnailUrl="";
         if (intent.hasExtra(KEY_EXTRA_DESCRIPTION)){
             description=intent.getExtras().getString(KEY_EXTRA_DESCRIPTION);
         }
         if (intent.hasExtra(KEY_EXTRA_VIDEO_URL)){
             videoUrl=intent.getExtras().getString(KEY_EXTRA_VIDEO_URL);
         }
+        if (intent.hasExtra(KEY_EXTRA_THUMBNAIL_URL)){
+            thumbnailUrl=intent.getExtras().getString(KEY_EXTRA_THUMBNAIL_URL);
+        }
 
         if(savedInstanceState == null) {
             StepCardFragment fragment = new StepCardFragment();
             fragment.setDescription(description);
             fragment.setVideoUrl(videoUrl);
+            fragment.setThumbnailUrl(thumbnailUrl);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.step_fragment_container, fragment)
                     .commit();
@@ -87,7 +89,7 @@ public class StepActivity extends AppCompatActivity  implements
     }
 
     @Override
-    public void onClick(int idStep, String description, String videoUrl) {
+    public void onClick(int idStep, String description, String videoUrl, String thumbnailUrl) {
 
     }
 
@@ -95,10 +97,12 @@ public class StepActivity extends AppCompatActivity  implements
         mAdapterSteps.nextPosition();
         String description=mAdapterSteps.currentDescription();
         String videoUrl=mAdapterSteps.currentVideoUrl();
+        String thumbnailUrl=mAdapterSteps.currentThumbnailUrl();
 
         StepCardFragment fragment = new StepCardFragment();
         fragment.setDescription(description);
         fragment.setVideoUrl(videoUrl);
+        fragment.setThumbnailUrl(thumbnailUrl);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.step_fragment_container, fragment)
                 .commit();
