@@ -13,4 +13,5 @@
     <string name="step_text">Step</string>
     <string name="ingredients_and_steps_text">Ingredients and steps</string>
     <string name="ingredients_for_text">Ingredients for</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>

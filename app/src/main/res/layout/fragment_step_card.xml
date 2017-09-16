@@ -18,7 +18,8 @@
     <ImageView
         android:id="@+id/iv_thumbnail_step"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/thumbnail" />
     <TextView
         android:id="@+id/tv_video_unavailable"
         android:layout_width="wrap_content"

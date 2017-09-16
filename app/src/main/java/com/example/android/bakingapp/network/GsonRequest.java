@@ -13,8 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- * Project name BakingApp
- * Created by kenneth on 15/09/2017.
+ * Original code took from https://developer.android.com/training/volley/request-custom.html
  */
 
 public class GsonRequest<T> extends Request<T> {
@@ -23,18 +22,11 @@ public class GsonRequest<T> extends Request<T> {
     private final Map<String, String> headers;
     private final Response.Listener<T> listener;
 
-    /**
-     * Make a GET request and return a parsed object from JSON.
-     *
-     * @param url URL of the request to make
-     * @param clazz Relevant class object, for Gson's reflection
-     * @param headers Map of request headers
-     */
-    public GsonRequest(String url, Class<T> clazz, Map<String, String> headers,
+    public GsonRequest(Class<T> clazz,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
+        super(Method.GET, com.example.android.bakingapp.object.JsonResponseRecipes.PATH_JSON_RECIPE, errorListener);
         this.clazz = clazz;
-        this.headers = headers;
+        this.headers = null;
         this.listener = listener;
     }
 

@@ -69,12 +69,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public int firstIdRecipe(){
         mCursor.moveToPosition(0);
-        return mCursor.getInt(COL_NUM_ID);
+        if (getItemCount()>0)
+            return mCursor.getInt(COL_NUM_ID);
+        return 0;
     }
 
     public String firstNameRecipe(){
         mCursor.moveToPosition(0);
-        return mCursor.getString(COL_NUM_NAME);
+        if (getItemCount()>0)
+            return mCursor.getString(COL_NUM_NAME);
+        return "...";
     }
 
     public interface RecipeAdapterOnClickHandler {

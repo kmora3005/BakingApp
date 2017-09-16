@@ -61,8 +61,8 @@ public class IngredientsAndStepsActivity extends AppCompatActivity implements
     public static final String KEY_EXTRA_VIDEO_URL = "video_url_key";
     public static final String KEY_EXTRA_THUMBNAIL_URL = "thumbnail_url_key";
 
-    public static final String KEY_PARCELABLE_INGREDIENTS = "position_ingredients_key";
-    public static final String KEY_PARCELABLE_STEPS = "position_steps_key";
+    private static final String KEY_PARCELABLE_INGREDIENTS = "position_ingredients_key";
+    private static final String KEY_PARCELABLE_STEPS = "position_steps_key";
     private final String KEY_SCROLL_POSITION = "scroll_position_key";
 
     private int mRecipeId;

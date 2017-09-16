@@ -12,7 +12,6 @@ import android.view.View;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapter.StepAdapter;
 import com.example.android.bakingapp.provider.RecipeProvider;
-import com.example.android.bakingapp.provider.StepContract;
 
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_DESCRIPTION;
 import static com.example.android.bakingapp.ui.IngredientsAndStepsActivity.KEY_EXTRA_ID_RECIPE;

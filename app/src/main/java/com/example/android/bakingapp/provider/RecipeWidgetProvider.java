@@ -24,8 +24,6 @@ import static com.example.android.bakingapp.sync.RecipeWidgetIntentService.EXTRA
  */
 
 public class RecipeWidgetProvider extends AppWidgetProvider {
-    private static int mIdRecipe;
-    private static String mNameRecipe;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int idRecipe,
@@ -42,8 +40,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static void updateIngredientsWidgets(Context context, AppWidgetManager appWidgetManager,int idRecipe,
             String nameRecipe, int[] appWidgetIds) {
-        mIdRecipe=idRecipe;
-        mNameRecipe=nameRecipe;
+
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, idRecipe, nameRecipe, appWidgetId);
         }
