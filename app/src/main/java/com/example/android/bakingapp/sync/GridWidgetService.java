@@ -51,7 +51,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public void onDataSetChanged() {
         if (mCursor != null) mCursor.close();
         mCursor = mContext.getContentResolver().query(
-                RecipeProvider.Ingredients.withId(mIdRecipe),
+                RecipeProvider.Ingredients.withIdRecipe(mIdRecipe),
                 null,
                 null,
                 null,

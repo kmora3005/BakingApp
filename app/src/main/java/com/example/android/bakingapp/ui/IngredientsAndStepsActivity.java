@@ -132,10 +132,10 @@ public class IngredientsAndStepsActivity extends AppCompatActivity implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
             case LOADER_ID_INGREDIENTS:
-                return new CursorLoader(this, RecipeProvider.Ingredients.withId(mRecipeId),
+                return new CursorLoader(this, RecipeProvider.Ingredients.withIdRecipe(mRecipeId),
                         INGREDIENTS_PROJECTION, null, null, null);
             case LOADER_ID_STEPS:
-                return new CursorLoader(this, RecipeProvider.Steps.withId(mRecipeId),
+                return new CursorLoader(this, RecipeProvider.Steps.withIdRecipe(mRecipeId),
                         STEPS_PROJECTION, null, null, null);
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);

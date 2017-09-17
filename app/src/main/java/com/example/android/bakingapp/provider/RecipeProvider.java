@@ -51,7 +51,7 @@ public class RecipeProvider {
                 type = "vnd.android.cursor.item/ingredient",
                 whereColumn = IngredientContract.COLUMN_ID_RECIPE,
                 pathSegment = 1)
-        public static Uri withId(long id) {
+        public static Uri withIdRecipe(long id) {
             return Uri.parse("content://" + AUTHORITY + "/ingredients/" + id);
         }
     }
@@ -69,9 +69,10 @@ public class RecipeProvider {
                 type = "vnd.android.cursor.item/step",
                 whereColumn = StepContract.COLUMN_ID_RECIPE,
                 pathSegment = 1)
-        public static Uri withId(long id) {
+        public static Uri withIdRecipe(long id) {
             return Uri.parse("content://" + AUTHORITY + "/steps/" + id);
         }
+
     }
 
 

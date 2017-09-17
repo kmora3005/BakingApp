@@ -71,7 +71,7 @@ public class StepActivity extends AppCompatActivity  implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, RecipeProvider.Steps.withId(mRecipeId),
+        return new CursorLoader(this, RecipeProvider.Steps.withIdRecipe(mRecipeId),
                 STEPS_PROJECTION, null, null, null);
     }
 
