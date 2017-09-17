@@ -1,12 +1,15 @@
 package com.example.android.bakingapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.android.bakingapp.ui.IngredientsAndStepsActivity;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,16 +33,22 @@ public class IngredientsAndStepsActivityTest {
     private static final String QUANTITY = "350.0";
 
     @Rule
-    public final ActivityTestRule<IngredientsAndStepsActivity> mActivityTestRule = new ActivityTestRule<>(IngredientsAndStepsActivity.class);
+    public ActivityTestRule<IngredientsAndStepsActivity> mActivityTestRule =
+            new ActivityTestRule<IngredientsAndStepsActivity>(IngredientsAndStepsActivity.class) {
+                @Override
+                protected Intent getActivityIntent() {
+                    Context targetContext = InstrumentationRegistry.getInstrumentation()
+                            .getTargetContext();
+                    Intent intent = new Intent(targetContext, IngredientsAndStepsActivity.class);
+                    intent.putExtra(EXTRA_RECIPE_ID,0);
+                    intent.putExtra(EXTRA_RECIPE_NAME,"Brownies");
+                    return intent;
+                }
+            };
 
     @Test
     public void clickRecyclerViewItem_CheckContentAndShowDescription() {
         try {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_RECIPE_ID,0);
-            intent.putExtra(EXTRA_RECIPE_NAME,"Brownies");
-            mActivityTestRule.launchActivity(intent);
-
             onView(new RecyclerViewMatcher(R.id.rv_ingredients).atPosition(0))
                     .check(matches(hasDescendant(withText(QUANTITY))));
             onView(new RecyclerViewMatcher(R.id.rv_steps).atPosition(0))
